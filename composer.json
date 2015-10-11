@@ -1,6 +1,7 @@
 {
     "require": {
-        "twbs/bootstrap": "3.*"
+        "twbs/bootstrap": "3.*",
+        "slim/slim": "~2.0"
     },
     "scripts": {
         "post-update-cmd": [
