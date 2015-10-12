@@ -18,17 +18,27 @@ $app->get('/hello/:name', function ($name) use ($app) {
 });
 
 $app->post('/login', function () use ($app) {
-    //Create book
+
     $username = $app->request->post('username');
     $password = $app->request->post('password');
-    //echo "$app->request->post('paramName')";
     
     #http://stackoverflow.com/questions/4364686/how-do-i-sanitize-input-with-pdo
+    #https://youtu.be/sRfYgco3xo4?t=1758
+    $sql = 'SELECT * FROM users WHERE name=:name and password=:password';
+    $user=$app->db->prepare($sql);
     
-    $sql = 'SELECT * FROM users WHERE name="'.$username.'" and password="'.$password.'"';
-    $user=$app->db->query($sql)->fetch();
-    if ($user) {$_SESSION[loggedIn]=$username;}
-    $app->flash('foo', 'You are logged in.');
+    /*** bind the paramaters ***/
+    $user->bindParam(':name', $username, PDO::PARAM_STR);
+    $user->bindParam(':password', $password, PDO::PARAM_STR);
+    
+    /*** execute the prepared statement ***/
+    $user->execute();
+    
+    $user=$user->fetch();
+    if ($user) {
+		$_SESSION[loggedIn]=$username;
+    	$app->flash('foo', 'You are logged in.');
+    }
     $app->redirect('/');
 });
 
