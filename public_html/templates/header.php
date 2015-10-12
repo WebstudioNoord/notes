@@ -89,3 +89,10 @@
     </nav>
 
     <div class="container">
+		<?php if ($flash['foo']) { ?>
+		<br><br><br><br>
+		<pre>
+		<?php //var_dump($flash->getMessages()); ?>
+		<?php echo $flash['foo']; ?>
+		</pre>
+		<?php } ?>
