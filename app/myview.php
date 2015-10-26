@@ -20,3 +20,4 @@ class CustomView extends \Slim\View
         return ob_get_clean();
     }
 }
+ 

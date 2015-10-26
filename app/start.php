@@ -15,3 +15,4 @@ $app->container->singleton('db', function (){
 require 'routes.php';
 
 $app->run();
+ 
