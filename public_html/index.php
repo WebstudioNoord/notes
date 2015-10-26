@@ -1,4 +1,3 @@
 <?php
-require '../app/start.php'
 
-?>
+require '../app/start.php';

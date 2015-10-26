@@ -9,13 +9,10 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Fixed Top Navbar Example for Bootstrap</title>
+    <title><?= $_SERVER['SERVER_NAME'] ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="navbar-fixed-top.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,7 +22,9 @@
   </head>
 
   <body>
-
+<!-- http://stackoverflow.com/a/31836425 -->
+<nav class="navbar navbar-default ">
+</nav>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -36,13 +35,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="/">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -63,11 +61,12 @@
             <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
           </ul>
           -->
-				<?php if ($_SESSION[loggedIn]) { ?>
+				<?php if ($_SESSION[LoggedIn]) { ?>
 			      <ul class="nav navbar-nav navbar-right">
 		            <li class="dropdown">
-		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION[loggedIn] ?> <span class="caret"></span></a>
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $this->trans('text.welcome %name%', ['%name%' => $_SESSION[Username]]) ?> <span class="caret"></span></a>
 		              <ul class="dropdown-menu col-xs-1">
+						<li><a href="/profile" class="text-right">Profile</a></li>
 		                <li><a href="/logout" class="text-right">Logout</a></li>
 		              </ul>
 		            </li>
@@ -76,23 +75,29 @@
                 <form class="navbar-form navbar-right" role="search" action="/login" method="post">
 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Username">
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="<?= $_SESSION[Username] ?>">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
+                    <input type="hidden" name="returnurl" value="<?= $_SERVER["REQUEST_URI"] ?>">
                     <button type="submit" class="btn btn-default">Sign In</button>
+                    <a class="btn btn-success" href="/signup">Sign Up</a>
                 </form>
                 <?php } ?>
+                
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-		<?php if ($flash['foo']) { ?>
-		<br><br><br><br>
-		<pre>
-		<?php //var_dump($flash->getMessages()); ?>
-		<?php echo $flash['foo']; ?>
-		</pre>
-		<?php } ?>
+        <?php 
+        foreach ($flash as $key => $value) { ?>
+          <div class="alert alert-<?=$key?>" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?=$value?>
+          </div>
+        <?php } ?>
+    </div>
+
+    <div class="container">
